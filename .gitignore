@@ -1,28 +1,36 @@
-# Gradle
+# ===========================
+# Gradle / Kotlin / Java
+# ===========================
 .gradle/
 build/
-
-# Kotlin/Java
+out/
 *.class
 *.jar
 *.war
 *.ear
 
+# ===========================
 # IntelliJ / IDE
+# ===========================
 .idea/
 *.iml
-out/
 
+# ===========================
 # Terraform
+# ===========================
 .terraform/
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.*
 crash.log
 
-# OS
+# ===========================
+# Helm
+# ===========================
+*/charts/
+
+# ===========================
+# OS / Misc
+# ===========================
 .DS_Store
 Thumbs.db
-
-# Helm
-charts/
