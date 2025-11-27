@@ -9,6 +9,10 @@ out/
 *.war
 *.ear
 
+# Gradle em módulos
+app/.gradle/
+app/build/
+
 # ===========================
 # IntelliJ / IDE
 # ===========================
@@ -28,6 +32,7 @@ crash.log
 # Helm
 # ===========================
 */charts/
+app/iti-kotlin-chart/charts/
 
 # ===========================
 # OS / Misc
