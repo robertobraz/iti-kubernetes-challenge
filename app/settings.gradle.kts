@@ -1,0 +1,1 @@
+rootProject.name = "iti-kubernetes-challenge-app"
