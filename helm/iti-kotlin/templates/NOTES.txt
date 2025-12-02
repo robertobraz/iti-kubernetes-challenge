@@ -1,0 +1,54 @@
+Your application *{{ include "iti-kotlin.fullname" . }}* has been deployed successfully! 🚀
+
+------------------------------------------------------------
+🔌  Accessing the application
+------------------------------------------------------------
+
+{{- if .Values.ingress.enabled }}
+
+Ingress is enabled. You can access the application via:
+
+  Host: {{ (index .Values.ingress.hosts 0).host }}
+  URL:  http://{{ (index .Values.ingress.hosts 0).host }}/
+
+If using Minikube, run:
+
+  minikube addons enable ingress
+  minikube ip
+
+Then add the host to your /etc/hosts:
+
+  <minikube-ip>   {{ (index .Values.ingress.hosts 0).host }}
+
+{{- else }}
+
+Ingress is disabled. Use port-forward to access the application locally:
+
+  kubectl port-forward svc/{{ include "iti-kotlin.fullname" . }}-svc 8080:8080
+
+Then open:
+
+  http://localhost:8080/
+
+{{- end }}
+
+------------------------------------------------------------
+💊  Health Checks
+------------------------------------------------------------
+
+Liveness:
+  http://localhost:8080{{ .Values.probes.liveness.path }}
+
+Readiness:
+  http://localhost:8080{{ .Values.probes.readiness.path }}
+
+------------------------------------------------------------
+📦  Release Information
+------------------------------------------------------------
+
+Release Name: {{ .Release.Name }}
+Namespace:    {{ .Release.Namespace }}
+Chart:        {{ .Chart.Name }}-{{ .Chart.Version }}
+App Version:  {{ .Chart.AppVersion }}
+
+Thank you for using the *iti-kotlin* Helm chart!

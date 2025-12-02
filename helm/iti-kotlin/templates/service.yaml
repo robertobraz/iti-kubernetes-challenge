@@ -1,11 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: iti-kotlin-service
+  name: {{ include "iti-kotlin.fullname" . }}-svc
+  labels:
+    {{- include "iti-kotlin.labels" . | nindent 4 }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8080"
+    prometheus.io/path: "/metrics"
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: {{ .Values.labels.app }}
+    {{- include "iti-kotlin.selectorLabels" . | nindent 4 }}
   ports:
-    - port: {{ .Values.service.port }}
+    - name: http
+      port: {{ .Values.service.port }}
       targetPort: 8080
+      protocol: TCP

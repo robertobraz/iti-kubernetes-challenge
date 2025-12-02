@@ -1,0 +1,73 @@
+Testando o HPA
+
+gerar carga,
+
+observar HPA subir os pods,
+
+parar a carga,
+
+e observar HPA reduzir de volta automaticamente,
+
+==========================
+
+1️⃣ Inicie um pod para gerar carga de CPU
+
+Escolha qualquer pod do deployment:
+
+kubectl exec -it $(kubectl get pod -l app.kubernetes.io/instance=iti-kotlin -o jsonpath='{.items[0].metadata.name}') -- /bin/sh
+
+
+Dentro do shell do pod, rode:
+
+# Gera carga máxima de CPU no pod atual
+yes > /dev/null &
+
+
+Isso vai disparar uso de CPU próximo ao limite definido (cpu request/limit).
+
+2️⃣ Observe o HPA aumentando os pods
+
+Abra outro terminal (ou PowerShell) e rode:
+
+# Observa os pods
+kubectl get pods -w
+
+# Observa o HPA
+kubectl get hpa -w
+
+
+Você verá o HPA aumentar gradualmente os pods, até atingir o maxReplicas ou quando a CPU cair abaixo do alvo.
+
+Observe o campo TARGETS no HPA (cpu %/target) mudando conforme a carga.
+
+3️⃣ Pare a carga de CPU
+
+Volte ao shell do pod que rodou o yes > /dev/null e rode:
+
+pkill yes
+exit
+
+
+Isso reduz a utilização de CPU no pod original.
+
+4️⃣ Observe o HPA reduzindo os pods
+
+No terminal de observação:
+
+kubectl get pods -w
+kubectl get hpa -w
+
+
+O HPA vai escalar os pods de volta para o minReplicas (1 pod neste caso).
+
+5️⃣ Limpeza final (opcional)
+
+Se quiser reiniciar os pods em estado limpo:
+
+kubectl delete pod -l app.kubernetes.io/instance=iti-kotlin
+
+
+O deployment recria os pods automaticamente.
+
+💡 Dica:
+Você pode repetir o teste com diferentes níveis de CPU ou até usar mais de um pod para gerar carga. O HPA vai reagir dinamicamente conforme a média de CPU de todos os pods.

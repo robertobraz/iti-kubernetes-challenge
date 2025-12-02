@@ -1,0 +1,19 @@
+{{- if and .Values.prometheus.enabled .Values.prometheus.createServiceMonitor }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "iti-kotlin.fullname" . }}
+  labels:
+    {{- include "iti-kotlin.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "iti-kotlin.selectorLabels" . | nindent 6 }}
+  namespaceSelector:
+    any: false
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: {{ default "30s" .Values.prometheus.scrapeInterval }}
+      honorLabels: true
+{{- end }}

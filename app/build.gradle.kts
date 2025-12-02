@@ -15,6 +15,8 @@ dependencies {
     implementation("io.ktor:ktor-server-core:2.3.4")
     implementation("io.ktor:ktor-server-netty:2.3.4")
     implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("io.ktor:ktor-server-metrics-micrometer")
+    implementation("io.micrometer:micrometer-registry-prometheus")
 
     testImplementation(kotlin("test"))
 }
